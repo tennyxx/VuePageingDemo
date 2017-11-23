@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <link rel="stylesheet" href="http://cdn.bootcss.com/bootstrap/3.3.0/css/bootstrap.min.css">
+    <style>
+        .mod-ft {
+            padding-top: 20px;
+        }
+
+        .mod-ft .pagination {
+            margin: 10px 0;
+            vertical-align: top;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="mod-ft text-center" id="page">
+        <ul class="pagination">
+            <li class="paginate_button previous " v-bind:class="{'disabled':page==1}" @click="ChangePageIndex(page-1)">
+                <a href="javascript:void(0)">上一页</a>
+            </li>
+            <li v-for="pageCount in pageall" class="paginate_button" v-bind:class="{'active':pageCount==page}" @click="ChangePageIndex(pageCount)">
+                <a href="javascript:void(0)">{{pageCount}}</a>
+            </li>
+            <li class="paginate_button next" v-bind:class="{'disabled':page==pageall}" @click="ChangePageIndex(page+1)">
+                <a href="javascript:void(0)">下一页</a>
+            </li>
+        </ul>
+    </div>
+</body>
+<script src="https://unpkg.com/vue"></script>
+<script type="text/javascript">
+     VM = new Vue({
+        el: '#page',
+        data: {
+            page: 1,//当前页码
+            pageall: 0//总页数
+        },
+        created: function () {
+            this.GetDataListByPage();
+        },
+        methods:{ 
+            //获取表格数据并更新页码、总页数等
+            GetDataListByPage:function(){
+                //省略掉请求当前页数据等操作，这里只针对分页，更新总页数
+                //demo直接写总页数
+                this.pageall=10;
+            },
+             //翻页并刷新数据
+             ChangePageIndex: function (pageIndex) {
+                 //判断需要跳转的页码大于0并小于最大页码
+                if (pageIndex > 0 && pageIndex <= this.pageall) {
+                    this.page = pageIndex;
+                    //刷新列表数据  预留写取数据的，这里用不到
+                    this.GetDataListByPage();
+                }
+            }
+        }
+    });
+</script>
+</html>
